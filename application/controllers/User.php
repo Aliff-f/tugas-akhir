@@ -71,7 +71,6 @@ class User extends CI_Controller
             'full_name' => $fullname,
             'username' => $username,
             'email' => $email,
-            'password' => $password,
             'phone' => $phone,
             'gender' => $gender,
             'address_province' => $province,
@@ -83,6 +82,15 @@ class User extends CI_Controller
             'zip_code' => $zip_code,
             'profile_picture' => $picture
         );
+
+        // Hanya update password jika input tidak kosong
+        $new_password = $this->input->post('new_password');
+        if (!empty($new_password)) {
+            $data['password'] = $new_password;
+        } elseif (!empty($password)) {
+            $data['password'] = $password;
+        }
+
 
         $this->Admin_model->update_user($data, $id);
 
