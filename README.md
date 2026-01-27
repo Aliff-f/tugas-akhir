@@ -75,7 +75,7 @@ npm run dev # atau npm run build
 
 ## 📸 Preview
 
-![Home Page Preview](./preview/home.png)
+![preview](https://github.com/user-attachments/assets/42c80584-7272-4ba5-be6f-9630f40c83e9)
 
 ---
 
