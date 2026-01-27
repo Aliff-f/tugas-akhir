@@ -99,6 +99,12 @@
                         Produk
                     </a>
 
+                    <a href="<?= base_url('admin/sales'); ?>" 
+                       class="group flex items-center gap-x-3.5 py-3 px-4 text-sm font-bold text-black bg-white border-2 border-black rounded-lg shadow-[4px_4px_0_0_#000] hover:bg-yellow-400 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
+                        <i class="fa-solid fa-chart-line text-lg"></i>
+                        Penjualan
+                    </a>
+
                     <a href="<?= base_url('admin/comments'); ?>" 
                        class="group flex items-center gap-x-3.5 py-3 px-4 text-sm font-bold text-black bg-white border-2 border-black rounded-lg shadow-[4px_4px_0_0_#000] hover:bg-yellow-400 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
                         <i class="fa-regular fa-comment-dots text-lg"></i>

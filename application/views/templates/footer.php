@@ -9,8 +9,7 @@
                     SOLENUSA
                 </h1>
                 <p class="text-gray-300 font-mono text-sm uppercase max-w-sm border border-gray-700 p-2">
-                    Sepatu terbaik. Kami adalah toko sepatu terpercaya. Kami menyediakan berbagai koleksi dan produk terbaru untuk Anda.
-                </p>
+Sepatu pilihan dari brand lokal Indonesia dengan gaya, kenyamanan, dan kualitas terbaik. SOLENUSA STORE untuk kamu yang bangga melangkah dengan produk dalam negeri.                </p>
             </div>
             
             <div class="grid grid-cols-2 md:grid-cols-3 gap-10 lg:gap-20 lg:w-2/3">

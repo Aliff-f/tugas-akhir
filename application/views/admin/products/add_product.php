@@ -225,20 +225,29 @@
                                 </label>
                                 <div class="bg-zinc-50 border-2 border-black rounded-lg p-4">
                                     <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
-                                        <?php if(isset($sizes) && !empty($sizes)): ?>
-                                            <?php foreach ($sizes as $size): ?>
-                                                <label class="relative cursor-pointer group">
-                                                    <input type="checkbox" name="sizes[]" value="<?= $size['id']; ?>" class="peer sr-only">
-                                                    <div class="h-10 w-full flex items-center justify-center bg-white border-2 border-zinc-300 rounded text-sm font-bold text-zinc-500 transition-all peer-checked:bg-neo-black peer-checked:text-white peer-checked:border-black peer-checked:shadow-none peer-hover:border-black group-hover:-translate-y-0.5 shadow-[2px_2px_0_0_#ccc] peer-checked:translate-y-0.5 peer-checked:shadow-none">
-                                                        <?= $size['name']; ?>
-                                                    </div>
-                                                </label>
-                                            <?php endforeach; ?>
-                                        <?php else: ?>
-                                            <p class="col-span-full text-zinc-500 text-sm">Tidak ada data ukuran.</p>
-                                        <?php endif; ?>
+                                        <!-- Static Sizes -->
+                                        <?php 
+                                        $static_sizes = ['38', '39', '40', '41', '42', '43', '44', '45', '46', '47'];
+                                        foreach ($static_sizes as $size): 
+                                        ?>
+                                            <label class="relative cursor-pointer group">
+                                                <input type="checkbox" name="sizes[]" value="<?= $size; ?>" class="peer sr-only">
+                                                <div class="h-10 w-full flex items-center justify-center bg-white border-2 border-zinc-300 rounded text-sm font-bold text-zinc-500 transition-all peer-checked:bg-neo-black peer-checked:text-white peer-checked:border-black peer-checked:shadow-none peer-hover:border-black group-hover:-translate-y-0.5 shadow-[2px_2px_0_0_#ccc] peer-checked:translate-y-0.5 peer-checked:shadow-none">
+                                                    <?= $size; ?>
+                                                </div>
+                                            </label>
+                                        <?php endforeach; ?>
                                     </div>
-                                    <p class="text-xs text-zinc-500 mt-3 font-medium">* Pilih satu atau lebih ukuran yang tersedia untuk produk ini.</p>
+                                    
+                                    <!-- Custom Size Input -->
+                                    <div class="mt-4 border-t-2 border-zinc-200 pt-4">
+                                        <label for="custom_size" class="neo-label text-xs mb-2">Ukuran Lain (Opsional)</label>
+                                        <input type="text" id="custom_size" name="custom_size" placeholder="Contoh: S, M, XL, 48" 
+                                               class="neo-input text-sm py-2">
+                                        <p class="text-xs text-zinc-500 mt-1">Pisahkan dengan koma jika lebih dari satu (misal: S, M, L).</p>
+                                    </div>
+
+                                    <p class="text-xs text-zinc-500 mt-3 font-medium">* Pilih ukuran yang tersedia atau tambahkan secara manual.</p>
                                 </div>
                             </div>
 

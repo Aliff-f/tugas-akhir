@@ -72,9 +72,25 @@ $allow_access = ($is_logged_in && $role != 'admin');
                                             </button>
                                         </div>
                                         
-                                        <div class="mt-2 flex flex-wrap gap-2 font-mono text-sm text-gray-500">
-                                            <span class="bg-gray-100 border border-black px-2 py-1 uppercase">Size: <?php echo $cart['product_size_name'] ?></span>
-                                            <span class="bg-gray-100 border border-black px-2 py-1 uppercase">Qty: 1</span>
+                                        <div class="mt-4 flex items-center gap-4">
+                                            <div class="font-mono text-xs text-gray-500 uppercase font-bold">Size: <?php echo $cart['product_size_name'] ?></div>
+                                            <form action="<?= site_url('cart/update_quantity/' . $cart['id']); ?>" method="post" class="flex items-center gap-2">
+                                                <div class="flex items-center border-2 border-black bg-white">
+                                                    <button type="button" onclick="changeCartQty(this, -1)"
+                                                        class="w-8 h-8 flex items-center justify-center font-black border-r-2 border-black hover:bg-brutal-orange transition-colors">
+                                                        -
+                                                    </button>
+                                                    <input type="number" name="quantity" value="<?= $cart['quantity']; ?>" min="1" readonly
+                                                        class="w-10 h-8 text-center font-rubik font-bold text-sm bg-transparent focus:outline-none">
+                                                    <button type="button" onclick="changeCartQty(this, 1)"
+                                                        class="w-8 h-8 flex items-center justify-center font-black border-l-2 border-black hover:bg-brutal-yellow transition-colors">
+                                                        +
+                                                    </button>
+                                                </div>
+                                                <button type="submit" class="bg-black text-white px-2 py-1 font-mono text-[10px] font-bold uppercase hover:bg-brutal-orange transition-colors border-2 border-black">
+                                                    Update
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
 
@@ -285,6 +301,14 @@ $allow_access = ($is_logged_in && $role != 'admin');
 </div>
 
 <script>
+    function changeCartQty(btn, delta) {
+        const input = btn.parentElement.querySelector('input');
+        let val = parseInt(input.value) + delta;
+        if (val >= 1) {
+            input.value = val;
+        }
+    }
+
     // --- Logic Delete Modal ---
     const deleteModal = document.getElementById('deleteModal');
     if (deleteModal) {

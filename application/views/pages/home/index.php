@@ -150,8 +150,7 @@
                     <span class="bg-brutal-orange px-2 text-white inline-block mt-1">Store</span>
                 </h1>
                 <p class="text-lg md:text-2xl font-bold border-l-8 border-brutal-yellow pl-4 md:pl-6 mb-6 md:mb-8 max-w-2xl font-rubik">
-                    Koleksi brutalism terbaru dengan navbar hitam pekat. Temukan sepatu impianmu.
-                </p>
+                    Sepatu brand lokal Indonesia dengan gaya, kenyamanan, dan kualitas terbaik. SOLENUSA STORE untuk kamu yang bangga melangkah dengan produk dalam negeri.                </p>
                 <div class="mt-2 md:mt-8">
                     <button type="button" 
                         class="w-full md:w-auto bg-brutal-black text-white text-lg md:text-xl font-bold py-3 md:py-4 px-8 md:px-10 border-4 border-transparent hover:bg-white hover:text-black hover:border-brutal-black hover:shadow-hard transition-all duration-300 transform hover:-rotate-1"
@@ -271,7 +270,7 @@
                     <div class="relative bg-white border-4 border-black shadow-hard transition-all duration-300 group-hover:shadow-none group-hover:translate-x-[4px] group-hover:translate-y-[4px]">
                         <div class="h-48 md:h-56 lg:h-64 w-full border-b-4 border-black overflow-hidden relative">
                             <img src="<?= base_url('public/images/home/banner-6.png'); ?>" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110" alt="Sport">
-                            <div class="absolute top-2 right-2 bg-black text-white text-xs font-bold px-2 py-1 uppercase transform rotate-2">Sport</div>
+                            <!-- <div class="absolute top-2 right-2 bg-black text-white text-xs font-bold px-2 py-1 uppercase transform rotate-2">Sport</div> -->
                         </div>
                         <div class="p-4 flex justify-between items-center bg-brutal-white group-hover:bg-brutal-yellow transition-colors duration-300">
                             <h4 class="font-black text-xl md:text-2xl uppercase italic">Sport Shoes</h4>
@@ -286,7 +285,7 @@
                     <div class="relative bg-white border-4 border-black shadow-hard transition-all duration-300 group-hover:shadow-none group-hover:translate-x-[4px] group-hover:translate-y-[4px]">
                         <div class="h-48 md:h-56 lg:h-64 w-full border-b-4 border-black overflow-hidden relative">
                             <img src="<?= base_url('public/images/home/banner-1.png'); ?>" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110" alt="Sneakers">
-                            <div class="absolute top-2 right-2 bg-black text-white text-xs font-bold px-2 py-1 uppercase transform rotate-2">Trend</div>
+                            <!-- <div class="absolute top-2 right-2 bg-black text-white text-xs font-bold px-2 py-1 uppercase transform rotate-2">Trend</div> -->
                         </div>
                         <div class="p-4 flex justify-between items-center bg-brutal-white group-hover:bg-brutal-yellow transition-colors duration-300">
                             <h4 class="font-black text-xl md:text-2xl uppercase italic">Sneakers</h4>
@@ -329,7 +328,7 @@
                     <div class="relative bg-white border-4 border-black shadow-hard transition-all duration-300 group-hover:shadow-none group-hover:translate-x-[4px] group-hover:translate-y-[4px]">
                         <div class="h-48 md:h-56 lg:h-64 w-full border-b-4 border-black overflow-hidden relative">
                             <img src="<?= base_url('public/images/home/banner-3.png'); ?>" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110" alt="Outdoor">
-                            <div class="absolute top-2 right-2 bg-black text-white text-xs font-bold px-2 py-1 uppercase transform rotate-2">Tough</div>
+                            <!-- <div class="absolute top-2 right-2 bg-black text-white text-xs font-bold px-2 py-1 uppercase transform rotate-2">Tough</div> -->
                         </div>
                         <div class="p-4 flex justify-between items-center bg-brutal-white group-hover:bg-brutal-yellow transition-colors duration-300">
                             <h4 class="font-black text-xl md:text-2xl uppercase italic">Outdoor</h4>

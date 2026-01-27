@@ -12,6 +12,12 @@ class Cart extends CI_Controller
     }
     public function index()
     {
+        // Prevent Admin from accessing cart
+        if ($this->session->userdata('role') === 'admin') {
+            redirect('admin/dashboard');
+            return;
+        }
+
         $data['header_title'] = 'Solenusa | Keranjang';
         $this->load->view('templates/header', $data);
         $id = $this->session->userdata('id');
@@ -37,6 +43,13 @@ class Cart extends CI_Controller
     }
 
     public function add($id_product) {
+        // Prevent Admin from adding to cart
+        if ($this->session->userdata('role') === 'admin') {
+            $this->session->set_flashdata('error', 'Administrator cannot add items to cart.');
+            redirect('admin/dashboard');
+            return;
+        }
+
         // Validate that user is logged in
         if (!$this->session->userdata('user_logged_in')) {
             $this->session->set_flashdata('error', 'Please login first.');
@@ -63,7 +76,7 @@ class Cart extends CI_Controller
         }
 
         $user_id = $this->session->userdata('id');
-        $quantity = 1;
+        $quantity = $this->input->post('quantity') ? (int)$this->input->post('quantity') : 1;
 
         $data = array(
             'user_id' => $user_id,
@@ -85,6 +98,15 @@ class Cart extends CI_Controller
     public function delete($id){
         $this->Cart_model->delete_cart($id);
         $this->session->set_flashdata('success', 'Delete Product from Cart successfully.');
+        redirect('keranjang');
+    }
+
+    public function update_quantity($id){
+        $quantity = $this->input->post('quantity');
+        if ($quantity > 0) {
+            $this->Cart_model->update_quantity($id, $quantity);
+            $this->session->set_flashdata('success', 'Quantity updated.');
+        }
         redirect('keranjang');
     }
 }

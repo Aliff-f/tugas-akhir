@@ -4,15 +4,19 @@ document.addEventListener("DOMContentLoaded", function () {
 	const smallNavbar = document.getElementById("small-navbar");
 	const hamburgerCloseButton = document.getElementById("hamburger-close-button");
 
-	hamburgerMenu.addEventListener("click", function () {
-		smallNavbar.classList.remove("h-0", "hidden");
-		smallNavbar.classList.add("h-[397px]", "flex");
-	});
+	if (hamburgerMenu) {
+		hamburgerMenu.addEventListener("click", function () {
+			smallNavbar.classList.remove("h-0", "hidden");
+			smallNavbar.classList.add("h-[397px]", "flex");
+		});
+	}
 
-	hamburgerCloseButton.addEventListener("click", function () {
-		smallNavbar.classList.remove("h-[397px]", "flex");
-		smallNavbar.classList.add("h-0", "hidden");
-	});
+	if (hamburgerCloseButton) {
+		hamburgerCloseButton.addEventListener("click", function () {
+			smallNavbar.classList.remove("h-[397px]", "flex");
+			smallNavbar.classList.add("h-0", "hidden");
+		});
+	}
 
 	// swiper hero section
 	const swiper = new Swiper(".swiper", {

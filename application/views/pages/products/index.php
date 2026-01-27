@@ -54,8 +54,8 @@
                     <?php foreach ($sizes as $size) { ?>
                         <button type="button"
                             class="py-2 border-2 border-brutal-black font-rubik font-bold text-sm hover:bg-brutal-black hover:text-white transition-all duration-200 shadow-[2px_2px_0px_0px_#ccc] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"
-                            onclick="window.location.href = '<?= base_url('produk/filter/size/' . $size['id']); ?>'">
-                            <?= $size['name']; ?>
+                            onclick="window.location.href = '<?= base_url('produk/filter/size/' . $size['size']); ?>'">
+                            <?= $size['size']; ?>
                         </button>
                     <?php } ?>
                 </div>

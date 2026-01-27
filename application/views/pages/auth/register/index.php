@@ -87,9 +87,9 @@
     <div class="min-h-screen w-full flex items-center justify-center bg-grid-pattern relative p-4 py-8 md:py-12">
 
         <div class="fixed top-8 left-8 hidden md:block z-50">
-             <div class="bg-brutal-yellow border-4 border-black px-4 py-2 font-black font-mono text-xs shadow-hard transform rotate-2 hover:rotate-0 transition-all cursor-default">
+             <!-- <div class="bg-brutal-yellow border-4 border-black px-4 py-2 font-black font-mono text-xs shadow-hard transform rotate-2 hover:rotate-0 transition-all cursor-default">
                 STATUS: REGISTRATION 
-            </div>
+            </div> -->
         </div>
 
         <a href="<?= site_url('home'); ?>" class="fixed top-4 right-4 md:top-8 md:right-8 z-50 group">
@@ -242,6 +242,81 @@
 
         </div>
     </div>
+
+    <!-- Duplicate Email Modal -->
+    <?php if ($this->session->flashdata('is_duplicate_email')): ?>
+    <div id="duplicateEmailModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm">
+        <div class="relative w-full max-w-md animate-slide-up">
+            <!-- Shadow Layer -->
+            <div class="absolute inset-0 bg-brutal-orange translate-x-3 translate-y-3 border-4 border-black z-0"></div>
+            
+            <!-- Modal Content -->
+            <div class="relative bg-white border-4 border-black z-10 flex flex-col">
+                <div class="bg-black text-white py-2 border-b-4 border-black px-4 flex justify-between items-center">
+                    <span class="font-mono font-bold text-xs tracking-widest text-brutal-yellow uppercase">Email Terdaftar</span>
+                    <button onclick="closeModal()" class="hover:text-brutal-orange transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="p-8 text-center flex flex-col gap-6">
+                    <div class="flex justify-center">
+                        <div class="w-16 h-16 bg-brutal-yellow border-4 border-black flex items-center justify-center shadow-hard rotate-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-black">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <h3 class="font-rubik font-black text-2xl uppercase leading-tight">Akun Sudah Terdaftar!</h3>
+                        <p class="font-mono text-sm font-bold text-gray-600">
+                            Email <span class="text-brutal-orange underline"><?= $this->session->flashdata('duplicate_email'); ?></span> sepertinya sudah terdaftar di sistem kami.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col gap-3">
+                        <a href="<?= site_url('masuk'); ?>" 
+                            class="w-full bg-black text-white font-mono font-black py-4 border-4 border-black shadow-hard hover:shadow-hard-hover hover:translate-x-1 hover:translate-y-1 hover:bg-brutal-yellow hover:text-black transition-all flex justify-center items-center gap-2">
+                            <span>MASUK KE AKUN</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </a>
+                        <button onclick="closeModal()" 
+                            class="w-full bg-brutal-grey text-black font-mono font-bold py-3 border-4 border-black hover:bg-white transition-all">
+                            GANTI EMAIL LAIN
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-black py-1 overflow-hidden h-6">
+                    <div class="animate-marquee whitespace-nowrap font-mono text-[10px] font-bold text-brutal-yellow uppercase tracking-widest">
+                        DUPLICATE EMAIL DETECTED /// PLEASE SIGN IN OR USE ANOTHER EMAIL /// DUPLICATE EMAIL DETECTED /// PLEASE SIGN IN OR USE ANOTHER EMAIL ///
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function closeModal() {
+            const modal = document.getElementById('duplicateEmailModal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => modal.remove(), 300);
+        }
+
+        // Auto-close on ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+    <?php endif; ?>
 
 </body>
 </html>

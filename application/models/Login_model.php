@@ -7,9 +7,9 @@ class Login_model extends CI_Model {
         parent::__construct();
     }
 
-    public function validate($username, $password) {
-        // Query untuk mencari user berdasarkan username
-        $this->db->where('username', $username);
+    public function validate($email, $password) {
+        // Query untuk mencari user berdasarkan email
+        $this->db->where('email', $email);
         $query = $this->db->get('users'); // Ganti 'users' dengan nama tabel yang sesuai
 
         if ($query->num_rows() == 1) {
@@ -30,7 +30,7 @@ class Login_model extends CI_Model {
         $this->db->where('email', $email);
         $query = $this->db->get('users');
 
-        if ($query->num_rows() == 1) {
+        if ($query->num_rows() > 0) {
             return $query->row_array();
         }
         return false;
@@ -55,5 +55,54 @@ class Login_model extends CI_Model {
 
         $this->db->where('id', $user_id);
         return $this->db->update('users', $data);
+    }
+
+    /**
+     * Store reset token and expiry
+     */
+    public function store_reset_token($email, $token) {
+        $check_email = $this->get_user_by_email($email);
+        
+        if ($check_email) {
+            $data = array(
+                'reset_token' => $token,
+                'token_expiry' => date('Y-m-d H:i:s', strtotime('+1 hour')) // Token valid for 1 hour
+            );
+            $this->db->where('email', $email);
+            return $this->db->update('users', $data);
+        }
+        return false;
+    }
+
+    /**
+     * Verify token
+     */
+    public function verify_token($token) {
+        $this->db->where('reset_token', $token);
+        $this->db->where('token_expiry >=', date('Y-m-d H:i:s'));
+        $query = $this->db->get('users');
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+        return false;
+    }
+
+    /**
+     * Update password by token
+     */
+    public function update_password_by_token($token, $new_password) {
+        $user = $this->verify_token($token);
+
+        if ($user) {
+            $data = array(
+                'password' => $new_password,
+                'reset_token' => NULL,
+                'token_expiry' => NULL
+            );
+            $this->db->where('id', $user['id']);
+            return $this->db->update('users', $data);
+        }
+        return false;
     }
 }

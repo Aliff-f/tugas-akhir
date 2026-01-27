@@ -229,8 +229,8 @@ class Admin extends CI_Controller
         $id_admin = $this->session->userdata('id');
         $data_admin['admin'] = $this->Admin_model->get_users_by_id($id_admin)->row_array();
         $query['categories'] = $this->db->get('categories')->result_array();
-        $query['colors'] = $this->db->get('colors')->result_array();
-        $query['sizes'] = $this->db->get('sizes')->result_array();
+        // $query['colors'] = $this->db->get('colors')->result_array(); // Removed
+        // $query['sizes'] = $this->db->get('sizes')->result_array(); // Removed, sizes now static in view
         $this->load->view('templates/admin_header', $data);
         $this->load->view('templates/dashboard_layout', $data_admin + $query);
         $this->load->view('admin/products/add_product', $query);
@@ -280,13 +280,31 @@ class Admin extends CI_Controller
         $query = $this->db->get('products')->row_array();
         $id = $query['id'];
 
-        // Insert Sizes
-        $sizes = $this->input->post('sizes');
+        // Insert Sizes logic updated for STATIC string storage
+        $sizes = $this->input->post('sizes'); // Array of names e.g. ['38', '40']
+        $custom_size = $this->input->post('custom_size'); // String e.g. "S, M, XL"
+
+        $all_sizes_to_process = [];
+
         if (!empty($sizes)) {
-            foreach ($sizes as $size_id) {
+            $all_sizes_to_process = array_merge($all_sizes_to_process, $sizes);
+        }
+
+        if (!empty($custom_size)) {
+            // Split by comma and trim whitespace
+            $custom_sizes_array = array_map('trim', explode(',', $custom_size));
+            $all_sizes_to_process = array_merge($all_sizes_to_process, $custom_sizes_array);
+        }
+
+        // Filter empty values and unique
+        $all_sizes_to_process = array_unique(array_filter($all_sizes_to_process));
+
+        if (!empty($all_sizes_to_process)) {
+            foreach ($all_sizes_to_process as $size_value) {
+                // Direct insert of string value (requires DB column 'size' in product_size table)
                 $size_data = array(
                     'id_products' => $id,
-                    'id_sizes' => $size_id
+                    'size' => $size_value // Changed from id_sizes to size
                 );
                 $this->Size_model->add_size($size_data);
             }
@@ -309,8 +327,8 @@ class Admin extends CI_Controller
         $data_admin['admin'] = $this->Admin_model->get_users_by_id($id_admin)->row_array();
         $data['product'] = $this->Admin_model->get_product_by_id($id)->row_array();
         $query['categories'] = $this->db->get('categories')->result_array();
-        $query['colors'] = $this->db->get('colors')->result_array();
-        $query['sizes'] = $this->db->get('sizes')->result_array();
+        // $query['colors'] = $this->db->get('colors')->result_array(); // Removed
+        // $query['sizes'] = $this->db->get('sizes')->result_array(); // We now use static sizes or product_size table for reading
         $data['products_sizes'] = $this->Size_model->get_size_by_product_id($id);
         $data['count_all_product_sizes'] = $this->Size_model->count_all_product_sizes_by_product_id($id);
         $this->load->view('templates/admin_header', $data);
@@ -367,7 +385,18 @@ class Admin extends CI_Controller
         );
         $this->Admin_model->update_product($data, $id);
 
-        if ($this->db->affected_rows()) {
+        // Update Sizes Logic (Optional: if we want to add new sizes from update page form directly, usually handled by separate Size Controller but let's keep it clean here)
+        // Usually update_product doesn't have size checkboxes, it has a separate section below.
+        // But if you added checkboxes there too:
+        /*
+        $sizes = $this->input->post('sizes');
+        // ... Logic would go here similar to add_product_action
+        */ 
+        
+        // Note: The previous logic didn't actually update sizes in `update_product_action` based on lines read previously.
+        // It mainly updates product details. Size management is done via size section on the bottom.
+        
+        if ($this->db->affected_rows() >= 0) { // Changed to >= 0 because sometimes no changes made is valid success
             $this->session->set_flashdata('success', 'Update Product successfully.');
             redirect('Admin/products');
         } else {
@@ -522,5 +551,49 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('success', 'Order Cancelled.');
             redirect("admin/dashboard");
         }
+    }
+
+    public function delete_order($id)
+    {
+        $this->Admin_model->delete_order($id);
+        if ($this->db->affected_rows()) {
+            $this->session->set_flashdata('success', 'Order deleted successfully.');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to delete order.');
+        }
+        redirect('Admin/dashboard');
+    }
+
+    public function sales()
+    {
+        $data['header_title'] = 'Solenusa | Analisis Penjualan';
+        $id_admin = $this->session->userdata('id');
+        $data_admin['admin'] = $this->Admin_model->get_users_by_id($id_admin)->row_array();
+        
+        $data['weekly_sales'] = $this->Admin_model->get_weekly_sales();
+        $data['monthly_sales'] = $this->Admin_model->get_monthly_sales();
+        $data['yearly_sales'] = $this->Admin_model->get_yearly_sales();
+        $data['total_revenue'] = $this->Admin_model->get_total_revenue();
+        $data['top_products'] = $this->Admin_model->get_top_selling_products(5);
+        
+        $this->load->view('templates/admin_header', $data);
+        $this->load->view('templates/dashboard_layout', $data_admin);
+        $this->load->view('admin/sales/index', $data);
+        $this->load->view('templates/admin_footer');
+    }
+
+    public function api_sales()
+    {
+        $data = [
+            'weekly_sales' => $this->Admin_model->get_weekly_sales(),
+            'monthly_sales' => $this->Admin_model->get_monthly_sales(),
+            'yearly_sales' => $this->Admin_model->get_yearly_sales(),
+            'total_revenue' => $this->Admin_model->get_total_revenue(),
+            'total_revenue_formatted' => 'Rp ' . number_format($this->Admin_model->get_total_revenue(), 0, ',', '.'),
+            'top_products' => $this->Admin_model->get_top_selling_products(5)
+        ];
+        
+        header('Content-Type: application/json');
+        echo json_encode($data);
     }
 }

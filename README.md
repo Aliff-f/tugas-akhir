@@ -1,96 +1,86 @@
-# Solenusa
+# 👟 Solenusa Store
 
-## Deskripsi
+[![CodeIgniter](https://img.shields.io/badge/Framework-CodeIgniter%203-EE4430?style=for-the-badge&logo=codeigniter&logoColor=white)](https://codeigniter.com/)
+[![TailwindCSS](https://img.shields.io/badge/Design-Tailwind%20CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 
-**Solenusa** adalah website toko sepatu dengan desain modern dan kekinian. Website ini dirancang untuk memberikan pengalaman belanja online yang responsif, interaktif, dan user-friendly. Selain menampilkan katalog produk, website ini juga dilengkapi dengan fitur CRUD untuk pengguna, produk, dan komentar, sehingga mempermudah pengelolaan toko oleh admin.
+**Solenusa** adalah platform e-commerce sepatu revolusioner yang memadukan estetika **Neo-Brutalism** dengan fungsionalitas modern. Dirancang untuk memberikan pengalaman belanja yang berani, responsif, dan sangat interaktif.
 
-## Preview
+---
+
+## ✨ Fitur Utama
+
+-   🎨 **Desain Neo-Brutalism**: Tampilan unik dengan kontras tinggi, bayangan tajam (hard shadows), dan tipografi tebal.
+-   🔑 **Google OAuth 2.0 Integration**: Login cepat dan aman menggunakan akun Google.
+-   🛠️ **Manajemen Produk (CRUD)**: Sistem admin lengkap untuk mengelola produk, kategori, warna, dan ukuran.
+-   💬 **Sistem Ulasan Pengguna**: Fitur rating dan komentar untuk interaksi pelanggan.
+-   📱 **Fully Responsive**: Teroptimasi untuk desktop, tablet, dan smartphone.
+-   🛒 **Seamless Checkout**: Alur pembelian yang intuitif dan mudah dipahami.
+
+---
+
+## 🚀 Teknologi
+
+-   **Backend**: PHP / CodeIgniter 3
+-   **Frontend**: TailwindCSS, Preline UI
+-   **JavaScript**: Alpine.js / Vanilla JS, SwiperJS (Slider)
+-   **Database**: MySQL
+-   **Utility**: SweetAlert2 (Notifikasi), Google API Client
+
+---
+
+## 📂 Struktur Direktori
+
+```bash
+solenusa-store/
+├── application/      # Inti aplikasi (Controller, Model, View)
+├── database/         # File migrasi & SQL setup
+├── public/           # Aset statis (CSS, JS, Images, Uploads)
+├── system/           # Core framework CodeIgniter
+├── vendor/           # Dependensi Composer
+├── .env              # Konfigurasi Environment (API Keys, DB)
+└── index.php         # Entry point aplikasi
+```
+
+---
+
+## 🛠️ Instalasi & Setup
+
+Siapkan lingkungan server lokal Anda (Laragon/XAMPP) dan ikuti langkah berikut:
+
+### 1. Clone & Install
+```bash
+git clone https://github.com/Aliff-f/tugas-akhir.git
+cd solenusa-store
+composer install
+npm install
+```
+
+### 2. Environment Setup
+Rename `.env.example` menjadi `.env` (jika tersedia) atau sesuaikan konfigurasi database dan API Google di:
+- `application/config/database.php`
+- `application/config/google.php`
+
+### 3. Database
+- Buat database baru bernama `solenusa_store`.
+- Import file `.sql` yang terdapat di folder `/database`.
+
+### 4. Build Assets
+Jika Anda melakukan perubahan pada styling:
+```bash
+npm run dev # atau npm run build
+```
+
+---
+
+## 📸 Preview
 
 ![Home Page Preview](./preview/home.png)
 
-## Teknologi yang Digunakan
+---
 
--   **CodeIgniter 3 (CI3):** Framework PHP yang digunakan untuk membangun backend.
--   **TailwindCSS:** Membantu membuat desain website yang responsif dan modern.
--   **JavaScript:** Logika interaktif pada frontend.
--   **Preline UI:** Komponen UI untuk meningkatkan estetika website.
--   **SwiperJS:** Membuat slider interaktif untuk katalog produk.
--   **SweetAlert2:** Memberikan notifikasi dan konfirmasi interaktif pada website.
+## 🤝 Kontribusi
 
-## Struktur Direktori
+Kontribusi selalu diterima! Silakan buka **Issue** atau kirim **Pull Request** untuk perbaikan dan fitur baru.
 
-```
-
-nimble-store/
-├── application/
-├── database/
-├── node_modules/
-├── preview/
-├── public/
-├── system/
-├── vendor/
-├── .editorconfig
-├── .eslintrc
-├── .gitignore
-├── .htaccess
-├── composer.json
-├── composer.lock
-├── example.php
-├── index.php
-├── license.txt
-├── package.json
-├── package-lock.json
-├── postcss.config.js
-├── README.md
-├── tailwind.config.js
-
-```
-
-## Cara Mengunduh dan Menjalankan
-
-Ikuti langkah-langkah berikut untuk mengunduh dan menjalankan Nimble Store di server lokal Anda:
-
-1. **Clone Repository**
-   Jalankan perintah berikut untuk mengunduh project ke komputer Anda.
-
-    ```bash
-    git clone https://github.com/salmanabdurrahman/nimble-store.git
-    cd nimble-store
-    ```
-
-2. **Instalasi Dependencies**
-   Instal dependensi yang diperlukan dengan menjalankan perintah:
-
-    ```bash
-    npm install
-    composer install
-    ```
-
-3. **Build CSS**
-   Bangun file CSS menggunakan TailwindCSS dengan perintah berikut:
-
-    ```bash
-    npm run build-css
-    ```
-
-4. **Setup Database**
-
-    - Buat database baru dengan nama `nimble_store`.
-    - Import file SQL dari folder `database` untuk setup awal database Anda.
-
-5. **Konfigurasi CodeIgniter**
-
-    - Atur file konfigurasi di `application/config/config.php` sesuai dengan URL project Anda.
-    - Atur file database di `application/config/database.php` sesuai dengan pengaturan server lokal Anda.
-
-6. **Jalankan Server**
-
-    - Jika Anda menggunakan XAMPP, pindahkan folder project ini ke dalam folder `htdocs`.
-    - Jika Anda menggunakan Laragon, pindahkan ke dalam folder `www`.
-    - Akses project melalui browser dengan URL `http://localhost/nimble-store`.
-
-7. **Testing Website**
-    - Login sebagai admin untuk mengelola produk.
-    - Uji fitur-fitur CRUD dan interaksi lainnya.
-
-Selamat mencoba Nimble Store! 🎉
+Made with ❤️ by [Solenusa Team](https://github.com/Aliff-f)

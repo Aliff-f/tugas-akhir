@@ -111,8 +111,14 @@
                             <td class="px-6 py-4 whitespace-nowrap search-target align-top">
                                 <div class="flex flex-col gap-2">
                                     <div class="flex items-center gap-2">
-                                        <div class="w-8 h-8 rounded bg-gray-200 border border-black flex items-center justify-center">
-                                            <i class="fa-solid fa-box text-xs"></i>
+                                        <div class="w-10 h-10 rounded-lg bg-gray-100 border-2 border-black overflow-hidden shadow-[2px_2px_0_0_#000] flex-shrink-0">
+                                            <?php if (!empty($comment['image_url'])): ?>
+                                                <img src="<?php echo base_url('public/uploads/' . $comment['image_url']); ?>" alt="Product" class="w-full h-full object-cover">
+                                            <?php else: ?>
+                                                <div class="w-full h-full flex items-center justify-center bg-gray-200">
+                                                    <i class="fa-solid fa-box text-xs text-gray-400"></i>
+                                                </div>
+                                            <?php endif; ?>
                                         </div>
                                         <span class="font-bold text-sm truncate max-w-[150px]" title="<?= $comment['product_name'] ?>">
                                             <?= $comment['product_name'] ?>

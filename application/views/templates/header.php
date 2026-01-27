@@ -107,6 +107,8 @@
                     </button>
                 <?php endif; ?>
 
+
+                <?php if ($this->session->userdata('role') !== 'admin'): ?>
                 <button onclick="location.href='<?= site_url('keranjang'); ?>'" class="hidden md:flex relative items-center gap-2 px-4 py-2.5 bg-brutal-white border-4 border-brutal-white shadow-hard-orange text-brutal-black font-bold uppercase text-sm tracking-wider transition-all duration-200 hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none hover:bg-brutal-orange hover:text-white hover:border-brutal-orange group">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="miter" class="group-hover:scale-110 transition-transform">
                         <circle cx="9" cy="21" r="1"></circle>
@@ -128,6 +130,8 @@
                     </div>
                     <?php endif; ?>
                 </button>
+                <?php endif; ?>
+
 
                 <button id="mobile-menu-btn" class="md:hidden flex flex-col justify-center items-center w-12 h-12 bg-brutal-orange border-4 border-brutal-white shadow-hard-white transition-all active:shadow-none active:translate-x-[4px] active:translate-y-[4px]">
                     <span class="block w-6 h-1 bg-black mb-1 transition-transform duration-300 origin-center" id="bar1"></span>
@@ -157,6 +161,7 @@
         </nav>
 
         <div class="mt-12 flex space-x-6">
+            <?php if ($this->session->userdata('role') !== 'admin'): ?>
             <button onclick="location.href='<?= site_url('keranjang'); ?>'" class="relative w-20 h-20 bg-brutal-white border-4 border-brutal-white text-black shadow-hard-orange transition-all hover:translate-x-[6px] hover:translate-y-[6px] hover:shadow-none hover:bg-brutal-orange hover:text-white hover:border-brutal-orange flex items-center justify-center group">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter" class="transition-colors">
                     <circle cx="9" cy="21" r="1"></circle>
@@ -167,6 +172,8 @@
                     <span class="text-white text-sm font-black"><?= isset($cart_count) ? $cart_count : 0; ?></span>
                 </div>
             </button>
+            <?php endif; ?>
+
             
             <?php if ($this->session->userdata('user_logged_in')): ?>
                 <?php 

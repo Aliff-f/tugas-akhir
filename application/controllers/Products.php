@@ -9,9 +9,9 @@ class Products extends CI_Controller
         $this->load->view('templates/header', $data);
         $this->load->model('Products_model');
 
-        $query['sizes'] = $this->db->get('sizes')->result_array();
+        $query['sizes'] = $this->Products_model->get_all_distinct_sizes(); // Fetch distinct sizes from product_size
         $query['categories'] = $this->db->get('categories')->result_array();
-        $query['colors'] = $this->db->get('colors')->result_array();
+        // $query['colors'] = $this->db->get('colors')->result_array(); // Removed colors table query
 
         $filter_type = $this->uri->segment(3); 
         $filter_id = $this->uri->segment(4);  

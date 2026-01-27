@@ -119,7 +119,7 @@
                                     </div>
                                     <div>
                                         <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Lokasi Markas</p>
-                                        <p class="text-lg font-bold">Yogyakarta, 55283<br>Indonesia</p>
+                                        <p class="text-lg font-bold">Surabaya, Jawa Timur<br>Indonesia</p>
                                     </div>
                                 </div>
                             </div>

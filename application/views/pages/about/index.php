@@ -76,8 +76,7 @@
                             "Kualitas Lokal, <br>Standar Global."
                         </p>
                         <p class="font-sans font-medium text-base md:text-lg text-gray-600 leading-relaxed">
-                            Kami hadir untuk membuktikan bahwa produk lokal tidak kalah saing. Dibuat dengan semangat, kreativitas, dan karakter khas Indonesia.
-                        </p>
+Sepatu pilihan dari brand lokal Indonesia dengan gaya, kenyamanan, dan kualitas terbaik. SOLENUSA STORE untuk kamu yang bangga melangkah dengan produk dalam negeri.                        </p>
                         <div class="pt-2">
                             <span class="font-bold bg-brutal-grey text-black px-3 py-1 border border-black inline-block text-sm">#LokalItuKeren</span>
                         </div>

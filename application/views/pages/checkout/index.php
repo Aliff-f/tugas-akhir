@@ -6,7 +6,7 @@
                 // --- LOGIKA HITUNG HARGA ---
                 $subtotal = isset($total_item_price) ? $total_item_price : 0;
                 $ongkir = ($subtotal > 0) ? 25000 : 0; 
-                $pajak = $subtotal * 0.025; 
+                $pajak = ($subtotal + $ongkir) * 0.025; 
                 $total_bayar = $subtotal + $ongkir + $pajak;
             ?>
 
@@ -148,10 +148,10 @@
                                                     <?php echo $order_detail['product_name']; ?>
                                                 </h4>
                                                 <p class="text-xs text-black font-mono">
-                                                    Size: <?php echo $order_detail['product_size_name'] ?> | Qty: 1
+                                                    Size: <?php echo $order_detail['product_size_name'] ?> | Qty: <?php echo $order_detail['quantity'] ?>
                                                 </p>
                                                 <p class="font-black text-sm text-black mt-1">
-                                                    Rp <?php echo number_format($order_detail['product_price'], 0, ',', '.'); ?>
+                                                    Rp <?php echo number_format($order_detail['product_price'] * $order_detail['quantity'], 0, ',', '.'); ?>
                                                 </p>
                                             </div>
                                         </div>

@@ -111,7 +111,7 @@
                             <th scope="col" class="px-8 py-6 text-left text-xs font-black uppercase tracking-widest">Pelanggan</th>
                             <th scope="col" class="px-8 py-6 text-left text-xs font-black uppercase tracking-widest">Item</th>
                             <th scope="col" class="px-8 py-6 text-left text-xs font-black uppercase tracking-widest">Total</th>
-                            <th scope="col" class="px-8 py-6 text-left text-xs font-black uppercase tracking-widest">Status</th>
+                            <th scope="col" class="px-8 py-6 text-left text-xs font-black uppercase tracking-widest text-center">Status</th>
                             <th scope="col" class="px-8 py-6 text-center text-xs font-black uppercase tracking-widest">Aksi</th>
                         </tr>
                     </thead>
@@ -149,12 +149,23 @@
                                     </td>
 
                                     <td class="px-8 py-6 search-target">
-                                        <div class="flex flex-col max-w-[250px]">
-                                            <span class="font-black text-base truncate uppercase tracking-tight"><?php echo $order['product_name'] ?></span>
-                                            <div class="mt-2">
-                                                <span class="inline-block px-2 py-1 bg-white border-2 border-black rounded text-[9px] font-black shadow-[2px_2px_0_0_#000]">
-                                                    SIZE: <?php echo $order['product_size'] ?>
-                                                </span>
+                                        <div class="flex items-center gap-4 max-w-[300px]">
+                                            <div class="w-16 h-16 flex-shrink-0 bg-gray-100 border-2 border-black rounded-lg overflow-hidden shadow-[3px_3px_0_0_#000]">
+                                                <?php if (!empty($order['image_url'])): ?>
+                                                    <img src="<?php echo base_url('public/uploads/' . $order['image_url']); ?>" alt="Product" class="w-full h-full object-cover">
+                                                <?php else: ?>
+                                                    <div class="w-full h-full flex items-center justify-center bg-gray-200">
+                                                        <i class="fa-solid fa-image text-gray-400"></i>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div class="flex flex-col min-w-0">
+                                                <span class="font-black text-base truncate uppercase tracking-tight"><?php echo $order['product_name'] ?></span>
+                                                <div class="mt-2">
+                                                    <span class="inline-block px-2 py-1 bg-white border-2 border-black rounded text-[9px] font-black shadow-[2px_2px_0_0_#000]">
+                                                        SIZE: <?php echo $order['product_size'] ?>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </td>
@@ -166,7 +177,7 @@
                                     <td class="px-8 py-6 whitespace-nowrap">
                                         <?php if ($order['status'] == 'completed') : ?>
                                             <span class="nb-badge inline-flex items-center gap-2 py-2 px-4 rounded-full bg-green-400 text-black border-2 border-black">
-                                                <i class="fa-solid fa-check-circle"></i> SELESAI
+                                                <i class="fa-solid fa-check-circle"></i> BERHASIL
                                             </span>
                                         <?php elseif ($order['status'] == 'cancelled') : ?>
                                             <span class="nb-badge inline-flex items-center gap-2 py-2 px-4 rounded-full bg-red-400 text-black border-2 border-black">
@@ -184,28 +195,11 @@
                                     </td>
 
                                     <td class="px-8 py-6 whitespace-nowrap text-center">
-                                        <div class="flex justify-center items-center gap-3">
-                                            <?php if ($order['status'] == 'pending') : ?>
-                                                <button onclick="confirmOrderAction('<?= base_url('admin/order/' . $order['id'] . '/accept'); ?>', 'accept')" 
-                                                        class="nb-btn w-11 h-11 flex items-center justify-center bg-blue-500 text-white rounded-lg" 
-                                                        title="Terima Pesanan">
-                                                    <i class="fa-solid fa-check text-lg"></i>
-                                                </button>
-                                                <button onclick="confirmOrderAction('<?= base_url('Admin/order/' . $order['id'] . '/cancel'); ?>', 'cancel')" 
-                                                        class="nb-btn w-11 h-11 flex items-center justify-center bg-red-500 text-white rounded-lg" 
-                                                        title="Batalkan Pesanan">
-                                                    <i class="fa-solid fa-trash text-lg"></i>
-                                                </button>
-                                            <?php elseif ($order['status'] == 'completed') : ?>
-                                                <div class="w-11 h-11 flex items-center justify-center border-2 border-black rounded-lg bg-gray-50 text-gray-300">
-                                                    <i class="fa-solid fa-lock text-xl"></i>
-                                                </div>
-                                            <?php else : ?>
-                                                <div class="w-11 h-11 flex items-center justify-center border-2 border-black rounded-lg bg-gray-50 text-gray-300">
-                                                    <i class="fa-solid fa-ban text-xl"></i>
-                                                </div>
-                                            <?php endif; ?>
-                                        </div>
+                                        <button onclick="confirmDeleteOrder('<?= $order['id']; ?>')" 
+                                                class="nb-btn w-10 h-10 flex items-center justify-center bg-red-500 text-white rounded-lg mx-auto" 
+                                                title="Hapus Pesanan">
+                                            <i class="fa-solid fa-trash-can text-sm"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             <?php } ?>
@@ -281,29 +275,16 @@
         document.getElementById("showingCount").innerText = visibleCount;
     }
 
-    function confirmOrderAction(url, type) {
-        let titleText = '', bodyText = '', confirmBtnText = '', iconHtml = '';
-
-        if (type === 'accept') {
-            titleText = 'TERIMA PESANAN?';
-            bodyText = 'Pesanan akan diproses dan status berubah menjadi Selesai.';
-            confirmBtnText = 'YA, TERIMA!';
-            iconHtml = '<i class="fa-solid fa-check-circle text-6xl text-blue-500 mb-2"></i>';
-        } else {
-            titleText = 'BATALKAN PESANAN?';
-            bodyText = 'Tindakan ini tidak dapat dibatalkan.';
-            confirmBtnText = 'YA, BATALKAN!';
-            iconHtml = '<i class="fa-solid fa-triangle-exclamation text-6xl text-red-500 mb-2"></i>';
-        }
-
+    function confirmDeleteOrder(id) {
         Swal.fire({
-            title: titleText,
-            html: iconHtml + '<p class="mt-2 font-bold">'+bodyText+'</p>',
+            title: 'HAPUS PESANAN?',
+            html: '<i class="fa-solid fa-trash-can text-6xl text-red-500 mb-4 block"></i>' +
+                  '<p class="font-bold">Pesanan #' + id + ' akan dihapus permanen dari data.</p>',
             showCancelButton: true,
             confirmButtonColor: '#000',
             cancelButtonColor: '#fff',
-            confirmButtonText: confirmBtnText,
-            cancelButtonText: 'TUTUP',
+            confirmButtonText: 'YA, HAPUS!',
+            cancelButtonText: 'BATAL',
             customClass: {
                 popup: 'border-[4px] border-black shadow-[10px_10px_0_0_#000] rounded-2xl',
                 title: 'font-black uppercase tracking-tighter text-2xl',
@@ -313,7 +294,7 @@
             buttonsStyling: false
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = url;
+                window.location.href = '<?= base_url('Admin/delete_order/'); ?>' + id;
             }
         });
     }

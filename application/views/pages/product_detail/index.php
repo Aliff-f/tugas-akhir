@@ -32,57 +32,100 @@
                         <p class="font-mono font-bold text-2xl md:text-3xl text-brutal-orange">
                             Rp <?= number_format($product['price'], 0, ',', '.'); ?>
                         </p>
-                        <span class="font-mono text-sm bg-black text-white px-2 py-1">STOCK: AVAILABLE</span>
+                        <?php if ($product['stock'] > 0): ?>
+                            <span class="font-mono text-sm bg-black text-white px-2 py-1">STOCK: <?= $product['stock']; ?></span>
+                        <?php else: ?>
+                            <span class="font-mono text-sm bg-red-600 text-white px-2 py-1">OUT OF STOCK</span>
+                        <?php endif; ?>
                     </div>
                 </div>
 
                 <form method="post" action="<?php echo site_url('keranjang/add/' . $product['id']); ?>" id="add-to-cart-form" class="flex flex-col gap-8">
                     
+
                     <div>
                         <h4 class="font-mono font-bold text-sm text-gray-500 mb-3 uppercase flex justify-between">
                             <span>Pilih Ukuran</span>
-                            <span>[ REQUIRED ]</span>
+                            <!-- <span>[ REQUIRED ]</span> -->
                         </h4>
                         
                         <input type="hidden" name="size" id="selected-size-input" required>
 
                         <div class="flex flex-wrap gap-3" id="size-options">
                             <?php foreach ($product_sizes as $product_size) { ?>
-                                <?php if (!empty($size_ada)) { // Asumsi logika size_ada sudah benar dari controller ?>
+                                <?php if (!empty($size_ada)): // Asumsi logika size_ada sudah benar dari controller ?>
                                     <button type="button" 
                                         class="size-option-btn min-w-[60px] h-12 border-4 border-brutal-black font-rubik font-bold text-lg hover:bg-brutal-black hover:text-white transition-all duration-200 uppercase"
-                                        data-value="<?php echo $product_size['id_sizes']; ?>">
+                                        data-value="<?php echo $product_size['size']; ?>">
                                         <?php echo $product_size['size_name']; ?>
                                     </button>
-                                <?php } ?>
+                                <?php endif; ?>
                             <?php } ?>
                         </div>
                         <p id="size-error" class="text-red-600 font-bold text-sm mt-2 hidden">* Harap pilih ukuran terlebih dahulu!</p>
                     </div>
 
                     <div class="bg-gray-100 p-4 border-l-4 border-brutal-black">
-                        <h4 class="font-mono font-bold text-sm text-gray-500 mb-2 uppercase">// DESKRIPSI PRODUK</h4>
+                        <h4 class="font-mono font-bold text-sm text-gray-500 mb-2 uppercase">// DESKRIPSI PRODUK</h4> 
                         <p class="font-rubik text-base text-brutal-black leading-relaxed">
                             <?= $product['description']; ?>
                         </p>
                     </div>
 
+                    <?php if ($this->session->userdata('role') !== 'admin'): ?>
+                    <div class="mt-4">
+                        <h4 class="font-mono font-bold text-sm text-gray-500 mb-3 uppercase flex justify-between">
+                            <span>Jumlah</span>
+                        </h4>
+                        <div class="flex items-center gap-4">
+                            <div class="flex items-center border-4 border-brutal-black bg-white">
+                                <button type="button" onclick="decrementQty()"
+                                    class="w-12 h-12 flex items-center justify-center font-black text-2xl hover:bg-brutal-orange transition-colors border-r-4 border-brutal-black">
+                                    -
+                                </button>
+                                <input type="number" name="quantity" id="quantity-input" value="1" min="1" max="<?= $product['stock']; ?>" readonly
+                                    class="w-16 h-12 text-center font-rubik font-bold text-xl focus:outline-none bg-transparent">
+                                <button type="button" onclick="incrementQty()"
+                                    class="w-12 h-12 flex items-center justify-center font-black text-2xl hover:bg-brutal-yellow transition-colors border-l-4 border-brutal-black">
+                                    +
+                                </button>
+                            </div>
+                            <span class="font-mono text-xs text-gray-400 uppercase font-bold">Stok: <?= $product['stock']; ?> tersedia</span>
+                        </div>
+                    </div>
+
                     <div class="mt-4">
                         <?php if ($this->session->userdata('user_logged_in')): ?>
-                            <?php if ($this->session->userdata('role') != 'admin'): ?>
+                            <?php if ($product['stock'] > 0): ?>
                                 <button type="submit"
                                     class="w-full bg-brutal-black text-white font-black text-xl py-4 border-4 border-transparent hover:bg-brutal-orange hover:text-white hover:border-black transition-all shadow-[4px_4px_0px_0px_#000000] active:shadow-none active:translate-x-[4px] active:translate-y-[4px] uppercase tracking-wider">
-                                    TAMBAHKAN KE KERANJANG
+                                    MASUKKAN KE KERANJANG
+                                </button>
+                            <?php else: ?>
+                                <button type="button" disabled
+                                    class="w-full bg-gray-400 text-white font-black text-xl py-4 border-4 border-transparent cursor-not-allowed uppercase tracking-wider">
+                                    STOK HABIS
                                 </button>
                             <?php endif; ?>
                         <?php else: ?>
                             <button type="button"
                                 class="w-full bg-brutal-black text-white font-black text-xl py-4 border-4 border-transparent hover:bg-brutal-orange hover:text-white hover:border-black transition-all shadow-[4px_4px_0px_0px_#000000] uppercase tracking-wider"
                                 onclick="window.location.href = '<?php echo base_url('masuk'); ?>'">
-                                LOGIN UNTUK BELI
+                                MASUKKAN KE KERANJANG
                             </button>
                         <?php endif; ?>
                     </div>
+                    <?php else: ?>
+                    <div class="mt-4 pt-4 border-t-4 border-brutal-black">
+                         <div class="bg-gray-100 p-4 border-2 border-black shadow-[4px_4px_0_0_#000]">
+                             <p class="text-sm font-bold text-gray-500 uppercase tracking-widest flex items-center gap-2">
+                                <i class="fa-solid fa-user-shield"></i> Administrator Mode
+                             </p>
+                             <p class="text-xs text-gray-400 mt-1 italic">Order and Cart functionality is disabled for management accounts.</p>
+                         </div>
+                    </div>
+                    <?php endif; ?>
+
 
                 </form>
             </div>
@@ -210,6 +253,24 @@
                 // Shake animation effect could be added here
             }
         });
+
+        // --- Quantity Logic ---
+        const qtyInput = document.getElementById('quantity-input');
+        const maxStock = parseInt(qtyInput.getAttribute('max'));
+
+        function incrementQty() {
+            let currentVal = parseInt(qtyInput.value);
+            if (currentVal < maxStock) {
+                qtyInput.value = currentVal + 1;
+            }
+        }
+
+        function decrementQty() {
+            let currentVal = parseInt(qtyInput.value);
+            if (currentVal > 1) {
+                qtyInput.value = currentVal - 1;
+            }
+        }
 
         // --- Modal Review Logic ---
         const modal = document.getElementById('add-review');

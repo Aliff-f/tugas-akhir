@@ -52,7 +52,7 @@
                 <div class="text-4xl opacity-100 bg-yellow-50 w-16 h-16 flex items-center justify-center rounded-full border-2 border-black flex-shrink-0">⏳</div>
             </div>
             <div class="neo-border bg-white p-6 neo-shadow transition-all neo-hover rounded-lg flex justify-between items-center h-full">
-                <div><p class="text-xs font-bold uppercase tracking-wider text-gray-600">Selesai</p><p class="text-3xl md:text-4xl font-black mt-2 text-green-600" id="stat-completed">0</p></div>
+                <div><p class="text-xs font-bold uppercase tracking-wider text-gray-600">Berhasil</p><p class="text-3xl md:text-4xl font-black mt-2 text-green-600" id="stat-completed">0</p></div>
                 <div class="text-4xl opacity-100 bg-green-50 w-16 h-16 flex items-center justify-center rounded-full border-2 border-black flex-shrink-0">✅</div>
             </div>
             <div class="neo-border bg-white p-6 neo-shadow transition-all neo-hover rounded-lg flex justify-between items-center h-full">
@@ -101,6 +101,15 @@
                                 
                                 <td class="block md:table-cell px-4 py-4 md:px-6 md:py-6 searchable-name border-b-2 border-dashed border-gray-300 md:border-none">
                                     <div class="flex items-center gap-4">
+                                        <div class="w-14 h-14 flex-shrink-0 bg-gray-100 border-2 border-black rounded shadow-[2px_2px_0_0_#000] overflow-hidden">
+                                            <?php if (!empty($order['image_url'])): ?>
+                                                <img src="<?php echo base_url('public/uploads/' . $order['image_url']); ?>" alt="Product" class="w-full h-full object-cover">
+                                            <?php else: ?>
+                                                <div class="w-full h-full flex items-center justify-center bg-gray-200">
+                                                    <i class="fa-solid fa-image text-gray-400"></i>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
                                         <div>
                                             <p class="text-lg font-bold leading-tight"><?= htmlspecialchars($order['product_name']) ?></p>
                                             <?php if(isset($order['product_size'])): ?>
@@ -127,7 +136,7 @@
                                     <span class="md:hidden text-xs font-bold uppercase text-gray-500">Status:</span>
                                     <div>
                                         <?php if ($order['status'] == 'completed'): ?>
-                                            <span class="inline-block px-3 py-1 bg-green-100 text-green-800 font-bold text-xs border-2 border-green-800 rounded shadow-[2px_2px_0_0_#166534]">SUKSES</span>
+                                            <span class="inline-block px-3 py-1 bg-green-100 text-green-800 font-bold text-xs border-2 border-green-800 rounded shadow-[2px_2px_0_0_#166534]">BERHASIL</span>
                                         <?php elseif ($order['status'] == 'pending'): ?>
                                             <span class="inline-block px-3 py-1 bg-yellow-100 text-yellow-800 font-bold text-xs border-2 border-yellow-800 rounded shadow-[2px_2px_0_0_#854d0e]">PENDING</span>
                                         <?php else: ?>
@@ -139,7 +148,11 @@
                                 <td class="block md:table-cell px-4 py-4 md:px-6 md:py-6 md:text-center border-t-2 border-dashed border-gray-300 md:border-none">
                                     <div class="flex justify-end md:justify-center">
                                         <?php if ($order['status'] == 'pending'): ?>
-                                            <button onclick="openCancelModal('<?= base_url('Users/order_cancel/' . $order['id']); ?>')"
+                                            <a href="<?= base_url('pembayaran?order_number=' . ($order['order_number'] ?? $order['id'])); ?>"
+                                               class="w-full md:w-auto text-center inline-block px-4 py-2 bg-green-600 text-white font-bold text-xs border-2 border-black rounded hover:bg-green-700 transition-all neo-btn-shadow neo-btn-hover uppercase mb-2 md:mb-0 md:mr-2">
+                                                Bayar Sekarang
+                                            </a>
+                                            <button onclick="openCancelModal('<?= base_url('User/order_cancel/' . $order['id']); ?>')"
                                                class="w-full md:w-auto text-center inline-block px-4 py-2 bg-red-600 text-white font-bold text-xs border-2 border-black rounded hover:bg-red-700 transition-all neo-btn-shadow neo-btn-hover uppercase cursor-pointer">
                                                 Batal Pesanan
                                             </button>
@@ -202,13 +215,13 @@
                             <i class="fa-solid fa-eye-slash text-black text-lg"></i>
                         </div>
                         <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                            <h3 class="text-xl font-black leading-6 text-black uppercase">Sembunyikan Item?</h3>
-                            <div class="mt-2"><p class="text-sm text-gray-600 font-medium">Item ini akan disembunyikan secara permanen dari perangkat ini.</p></div>
+                            <h3 class="text-xl font-black leading-6 text-black uppercase">Hapus Item?</h3>
+                            <div class="mt-2"><p class="text-sm text-gray-600 font-medium">Item ini akan dihapus secara permanen dari perangkat ini.</p></div>
                         </div>
                     </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t-2 border-black gap-2">
-                    <button type="button" onclick="confirmDeleteUI()" class="inline-flex w-full justify-center px-5 py-2.5 bg-black text-white font-bold text-sm border-2 border-black shadow-[2px_2px_0_0_#888] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all uppercase sm:w-auto">Ya, Sembunyikan</button>
+                    <button type="button" onclick="confirmDeleteUI()" class="inline-flex w-full justify-center px-5 py-2.5 bg-black text-white font-bold text-sm border-2 border-black shadow-[2px_2px_0_0_#888] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all uppercase sm:w-auto">Ya, Hapus</button>
                     <button type="button" onclick="closeDeleteModal()" class="mt-3 inline-flex w-full justify-center px-5 py-2.5 bg-white text-black font-bold text-sm border-2 border-black shadow-[2px_2px_0_0_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all uppercase sm:mt-0 sm:w-auto">Batal</button>
                 </div>
             </div>

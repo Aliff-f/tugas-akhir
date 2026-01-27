@@ -6,9 +6,9 @@ class Size extends CI_Controller
     public function add_size($id)
     {
         $this->load->model('Size_model');
-        $size_id = $this->input->post('size');
+        $size_value = $this->input->post('size'); // Contains string like 'XL' or '42'
         $this->db->where('id_products', $id);
-        $this->db->where('id_sizes', $size_id);
+        $this->db->where('size', $size_value);
         $existing_size = $this->db->get('product_size')->row();
 
         if ($existing_size) {
@@ -17,7 +17,7 @@ class Size extends CI_Controller
         } else {
             $data = array(
                 'id_products' => $id,
-                'id_sizes' => $size_id
+                'size' => $size_value
             );
 
             $this->Size_model->add_size($data);

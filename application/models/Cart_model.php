@@ -11,18 +11,18 @@ class Cart_model extends CI_Model
         $this->db->select('cart.id, cart.user_id, cart.product_size_id, cart.quantity, cart.added_at, 
         products.id AS product_id,
         products.name AS product_name, 
-        sizes.name AS product_size_name, 
+        product_size.size AS product_size_name, 
         products.price AS product_price, 
         products.image_url AS product_image, 
-        products.description AS product_description, 
-        colors.name AS product_color_name');
+        products.description AS product_description');
+        // Removed: colors.name AS product_color_name
         $this->db->from('cart');
         $this->db->join('product_size', 'cart.product_size_id = product_size.id');
         $this->db->join('products', 'product_size.id_products = products.id');
-        $this->db->join('sizes', 'product_size.id_sizes = sizes.id');
-        $this->db->join('colors', 'products.color_id = colors.id', 'left'); // Left join for color in case null
+        // $this->db->join('sizes', 'product_size.id_sizes = sizes.id'); // Removed
+        // $this->db->join('colors', 'products.color_id = colors.id', 'left'); // Removed
         $this->db->where('cart.user_id', $user_id);
-        $this->db->group_by('cart.id'); // Avoid duplicates
+        $this->db->group_by('cart.id');
         $this->db->order_by('cart.added_at', 'DESC');
         $query = $this->db->get();
         return $query->result_array();
@@ -52,10 +52,10 @@ class Cart_model extends CI_Model
         }
     }
 
-    public function get_product_size($id_sizes, $id_products){
+    public function get_product_size($size_value, $id_products){
         $this->db->select('*');
         $this->db->from('product_size');
-        $this->db->where(['id_sizes' => $id_sizes, 'id_products' => $id_products]);
+        $this->db->where(['size' => $size_value, 'id_products' => $id_products]); // Changed id_sizes to size
         $query = $this->db->get();
         return $query->row_array();
     }
@@ -88,6 +88,11 @@ class Cart_model extends CI_Model
     public function delete_cart($id){
         $this->db->where('id', $id);
         $this->db->delete('cart');
+    }
+
+    public function update_quantity($id, $quantity) {
+        $this->db->where('id', $id);
+        $this->db->update('cart', array('quantity' => (int)$quantity));
     }
 
     public function empty_cart($user_id){

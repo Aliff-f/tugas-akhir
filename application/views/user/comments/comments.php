@@ -93,8 +93,14 @@
 
                                     <td class="px-6 py-5 whitespace-nowrap border-b border-gray-200">
                                         <div class="flex items-center gap-3">
-                                            <div class="w-10 h-10 bg-white border-2 border-black flex items-center justify-center text-black shadow-[2px_2px_0px_0px_black]">
-                                                <i class="fa-solid fa-box-open"></i>
+                                            <div class="w-12 h-12 flex-shrink-0 bg-white border-2 border-black rounded shadow-[2px_2px_0px_0px_black] overflow-hidden">
+                                                <?php if (!empty($comment['image_url'])): ?>
+                                                    <img src="<?php echo base_url('public/uploads/' . $comment['image_url']); ?>" alt="Product" class="w-full h-full object-cover">
+                                                <?php else: ?>
+                                                    <div class="w-full h-full flex items-center justify-center bg-gray-100">
+                                                        <i class="fa-solid fa-box-open text-gray-400"></i>
+                                                    </div>
+                                                <?php endif; ?>
                                             </div>
                                             <span class="block text-sm font-bold font-display uppercase tracking-tight">
                                                 <?php echo $comment['product_name'] ?>
@@ -151,6 +157,11 @@
 
                                     <td class="px-6 py-5 whitespace-nowrap text-end border-b border-gray-200">
                                         <div class="flex justify-end items-center gap-2">
+                                            <a href="<?= base_url('User/update_comment_user/' . $comment['id']); ?>" 
+                                               class="w-9 h-9 inline-flex justify-center items-center bg-white border-2 border-black text-blue-600 hover:bg-blue-600 hover:text-white transition-all shadow-[2px_2px_0px_0px_black] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]"
+                                               title="Edit">
+                                                <i class="fa-solid fa-pen-to-square text-xs"></i>
+                                            </a>
                                             
                                             <a href="<?= base_url('User/delete_comment/' . $comment['id']); ?>" 
                                                onclick="confirmDelete(event, this.href)"

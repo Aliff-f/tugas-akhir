@@ -232,7 +232,7 @@
                                 </div>
                                 <div>
                                     <label class="text-xs uppercase text-gray-400 mb-1 block">Password Baru</label>
-                                    <input type="password" name="new_password" class="w-full bg-gray-900 border border-gray-700 text-white px-4 py-3 focus:outline-none focus:border-brutal-orange transition-colors" placeholder="Min. 8 Karakter">
+                                    <input type="password" name="new_password" class="w-full bg-gray-900 border border-gray-700 text-white px-4 py-3 focus:outline-none focus:border-brutal-orange transition-colors" placeholder="Password Kuat">
                                 </div>
                             </div>
                         </div>

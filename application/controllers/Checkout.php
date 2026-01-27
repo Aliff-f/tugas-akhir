@@ -9,6 +9,7 @@ class Checkout extends CI_Controller
         $this->load->model('Admin_model');
         $this->load->model('Cart_model');
         $this->load->model('Checkout_model');
+        $this->load->model('Products_model');
     }
     public function index()
     {
@@ -21,11 +22,11 @@ class Checkout extends CI_Controller
         if ($data['total_item_price'] == 0) {
             $delivery = 0;
         } else {
-            $delivery = 6.99;
+            $delivery = 25000;
         }
 
         $data['delivery'] = $delivery;
-        $ppn = 0.12;
+        $ppn = 0.025;
         $data['ppn'] = ($data['total_item_price'] + $delivery) * $ppn;
         $data['total'] = $data['total_item_price'] + $delivery + $data['ppn'];
 
@@ -92,14 +93,25 @@ class Checkout extends CI_Controller
             $order_number = $this->db->query('SELECT generate_order_number() AS order_number')->row()->order_number;
 
             foreach ($get_data_product as $product) {
-                $data = array(
-                    'user_id' => $id,
-                    'product_size_id' => $product['product_size_id'],
-                    'status' => 'pending',
-                    'order_number' => $order_number
-                );
-                $this->Admin_model->add_order($data);
+                // Loop based on quantity to insert multiple rows if needed
+                // This ensures that SUM(products.price) for an order_number reflects the actual total quantity
+                for ($i = 0; $i < $product['quantity']; $i++) {
+                    $data_order = array(
+                        'user_id' => $id,
+                        'product_size_id' => $product['product_size_id'],
+                        'status' => 'pending',
+                        'order_number' => $order_number
+                    );
+                    
+                    $this->Admin_model->add_order($data_order);
+                }
+
+                // Reduce Stock
+                if (isset($product['product_id'])) {
+                     $this->Products_model->decrease_stock($product['product_id'], $product['quantity']);
+                }
             }
+            $this->Cart_model->empty_cart($id);
             $this->session->set_flashdata('order_number', $order_number);
         }
         

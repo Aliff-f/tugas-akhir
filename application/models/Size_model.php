@@ -8,9 +8,9 @@ class Size_model extends CI_Model
     }
 
     public function get_size_by_product_id($id_product) {
-        $this->db->select('product_size.*, sizes.name AS size_name');
+        $this->db->select('product_size.*, product_size.size AS size_name');
         $this->db->from('product_size');
-        $this->db->join('sizes', 'sizes.id = product_size.id_sizes');
+        // $this->db->join('sizes', 'sizes.id = product_size.id_sizes'); // Removed
         $this->db->where('id_products', $id_product);
         $query = $this->db->get();
         return $query->result_array();
@@ -30,4 +30,19 @@ class Size_model extends CI_Model
         $this->db->where('id_products', $id_product);
         return $this->db->count_all_results();
     }
+
+    // Deprecated helpers (Table 'sizes' deleted)
+    /*
+    public function get_size_by_name($name)
+    {
+        $this->db->where('name', $name);
+        return $this->db->get('sizes')->row_array();
+    }
+
+    public function create_size($name)
+    {
+        $this->db->insert('sizes', ['name' => $name]);
+        return $this->db->insert_id();
+    }
+    */
 }

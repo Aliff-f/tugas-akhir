@@ -120,14 +120,14 @@
                         <div class="space-y-2">
                             <label class="block font-mono font-bold text-xs uppercase flex items-center gap-2">
                                 <div class="w-2 h-2 bg-brutal-orange border border-black"></div>
-                                Username
+                                Email
                             </label>
                             <div class="relative">
-                                <input type="text" name="username" required autocomplete="off" placeholder="Masukkan username..."
+                                <input type="email" name="email" required autocomplete="email" placeholder="Masukkan email..."
                                     class="input-brutal w-full px-4 py-3 md:px-5 md:py-3 border-4 border-black font-bold font-sans text-sm md:text-base placeholder-gray-400 bg-brutal-grey focus:bg-white focus:outline-none transition-all duration-200">
                                 <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                                     </svg>
                                 </div>
                             </div>
@@ -148,6 +148,11 @@
                                     </svg>
                                 </button>
                             </div>
+                        </div>
+                        <div class="text-right mt-1">
+                            <a href="<?= site_url('Login/forgot_password'); ?>" class="font-mono text-xs font-bold underline hover:text-brutal-orange transition-colors">
+                                Lupa Password?
+                            </a>
                         </div>
 
                         <div class="pt-2 space-y-4">
@@ -196,20 +201,40 @@
     </div>
 
 </body>
-<script>
-function togglePassword() {
-    const passwordInput = document.getElementById('passwordInput');
-    const eyeIcon = document.getElementById('eyeIcon');
-    
-    if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        eyeIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
-    } else {
-        passwordInput.type = 'password';
-        eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
-    }
-}
 </script>
+
+    <!-- Error Modal -->
+    <?php if ($this->session->flashdata('error')): ?>
+    <div id="errorModal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md border-4 border-brutal-black shadow-[12px_12px_0px_0px_#dc2626] p-8 relative animate-slide-up flex flex-col items-center text-center">
+            
+            <div class="w-20 h-20 bg-red-100 border-4 border-black rounded-full flex items-center justify-center mb-6 text-red-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </div>
+
+            <h3 class="font-rubik font-black text-3xl uppercase mb-2">LOGIN GAGAL!</h3>
+            <p class="font-mono text-sm text-gray-500 mb-8 max-w-[80%] uppercase font-bold">
+                <?= $this->session->flashdata('error'); ?>
+            </p>
+
+            <button type="button" onclick="closeErrorModal()"
+                class="w-full bg-brutal-black text-white font-rubik font-black text-xl py-4 border-4 border-transparent hover:bg-brutal-orange hover:text-white hover:border-black transition-all shadow-[4px_4px_0px_0px_#000000] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] uppercase">
+                COBA LAGI
+            </button>
+        </div>
+    </div>
+    <script>
+    function closeErrorModal() {
+        const modal = document.getElementById('errorModal');
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+    document.body.style.overflow = 'hidden';
+    </script>
+    <?php endif; ?>
 </html>
 
 <?php elseif ($this->session->userdata('user_logged_in') && $this->session->userdata('role') == 'user'): ?>

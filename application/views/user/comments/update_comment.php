@@ -1,121 +1,167 @@
-<!-- ======= CONTENT SECTION START ======= -->
-<section class="w-full lg:ps-64">
-    <div class="p-4 sm:p-6 space-y-4 sm:space-y-6">
-        <!-- TABLE SECTION -->
-        <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-            <!-- CARD -->
-            <div class="bg-white rounded-xl shadow p-4 sm:p-7">
-                <div class="mb-8">
-                    <h2 class="text-xl font-bold text-gray-800">
-                        Perbarui Ulasan
-                    </h2>
-                    <p class="text-sm text-gray-600">
-                        Kelola ulasan, produk, dan penilaian Anda
-                    </p>
-                </div>
-                <form action="<?php echo site_url('user/update_add_comment_action_user') ?>" method="post"
-                    enctype="multipart/form-data">
-                    <div class="grid sm:grid-cols-12 gap-2 sm:gap-6">
-                        <div class="sm:col-span-3">
-                            <label class="inline-block text-sm text-gray-800 mt-2.5">
-                                Foto Produk
-                            </label>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perbarui Ulasan | Neo-Brutalism</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@300;500;700;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['"Space Grotesk"', 'sans-serif'],
+                    },
+                    colors: {
+                        'brutal-orange': '#FF5500', 
+                        'brutal-yellow': '#D6F264',
+                        'brutal-gray': '#F3F3F3',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #ffffff; color: #000; }
+        
+        /* Neo-Brutalist Utilities */
+        .nb-border { border: 3px solid black; }
+        .nb-shadow { box-shadow: 6px 6px 0px 0px black; }
+        .nb-shadow-hover:hover { box-shadow: 8px 8px 0px 0px black; transform: translate(-2px, -2px); }
+        .nb-shadow-active:active { box-shadow: 2px 2px 0px 0px black; transform: translate(2px, 2px); }
+        
+        .nb-input {
+            width: 100%;
+            background-color: #fff;
+            border: 3px solid black;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            color: black;
+            border-radius: 0;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+        .nb-input:focus {
+            box-shadow: 4px 4px 0px 0px black;
+            transform: translate(-1px, -1px);
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+<section class="w-full lg:ps-[280px] bg-white min-h-screen">
+    <div class="p-6 md:p-8 space-y-8">
+        
+        <!-- HEADER SECTION -->
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b-4 border-black pb-6">
+                <div class="space-y-2">
+                    <a href="<?= base_url('user/comments'); ?>" class="inline-flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-black transition-colors uppercase font-display">
+                        <i class="fa-solid fa-arrow-left"></i> Kembali
+                    </a>
+                    <div>
+                         <div class="inline-block bg-brutal-orange border-2 border-black px-3 py-1 text-xs font-bold font-display uppercase tracking-widest mb-2 shadow-[2px_2px_0px_0px_black] text-white">
+                            Edit Mode
                         </div>
-                        <!-- PRODUCT PHOTO -->
-                        <div class="sm:col-span-9">
-                            <div class="flex items-center gap-5">
-                                <img class="inline-block size-16 rounded-full ring-2 ring-white"
-                                    src="https://preline.co/assets/img/160x160/img1.jpg" alt="Avatar">
-                                <div class="flex gap-x-2">
-                                    <!-- <div>
-                                        <button type="button"
-                                            class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50">
-                                            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
-                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                                                <polyline points="17 8 12 3 7 8" />
-                                                <line x1="12" x2="12" y1="3" y2="15" />
-                                            </svg>
-                                            Upload photo
-                                        </button>
-                                    </div> -->
+                        <h1 class="text-4xl md:text-5xl font-display font-black uppercase tracking-tighter leading-none">
+                            Perbarui Ulasan
+                        </h1>
+                        <p class="text-gray-600 font-medium mt-2 max-w-md">
+                             Edit detail ulasan dan penilaian Anda untuk produk ini.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto pb-12">
+            <!-- FORM CARD -->
+            <div class="border-3 border-black nb-shadow bg-white overflow-hidden p-6 md:p-8">
+                 <div class="mb-8 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-black text-white flex items-center justify-center text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)]">
+                        <i class="fa-solid fa-comment-dots"></i>
+                    </div>
+                    <h2 class="text-2xl font-display font-black uppercase">Detail Ulasan</h2>
+                </div>
+
+                <form action="<?php echo site_url('user/update_add_comment_action_user') ?>" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="<?php echo $comment['id'] ?>">
+                    <input type="hidden" name="product_id" value="<?php echo $comment['product_id'] ?>">
+                    <input type="hidden" name="user_id" value="<?php echo $comment['user_id'] ?>">
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        
+                        <!-- PRODUCT INFO (READONLY) -->
+                         <div class="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-brutal-gray border-3 border-black">
+                            <div>
+                                <label class="font-display font-bold uppercase text-sm mb-2 block">
+                                    <i class="fa-solid fa-box mr-1"></i> Produk
+                                </label>
+                                <div class="bg-white border-3 border-black p-3 font-bold font-mono shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)]">
+                                    <?php echo $comment['product_name'] ?>
                                 </div>
                             </div>
-                        </div>
-                        <!-- PRODUCT NAME -->
-                        <div class="sm:col-span-3">
-                            <label for="af-account-full-name" class="inline-block text-sm text-gray-800 mt-2.5">
-                                Nama Produk
-                            </label>
-                        </div>
-                        <div class="sm:col-span-9">
-                            <div class="sm:flex">
-                                <input type="hidden" name="id" value="<?php echo $comment['id'] ?>">
-                                <input type="hidden" name="product_id" value="<?php echo $comment['product_id'] ?>">
-                                <input id="af-account-full-name" type="text"
-                                    class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                    name="name" value="<?php echo $comment['product_name'] ?>"
-                                    placeholder="ADIDAS 4DFWD X PARLEY" readonly>
-                            </div>
-                        </div>
-                        <!-- USERNAME -->
-                        <div class="sm:col-span-3">
-                            <label for="af-account-full-name" class="inline-block text-sm text-gray-800 mt-2.5">
-                                Nama Pengguna
-                            </label>
-                        </div>
-                        <div class="sm:col-span-9">
-                            <div class="sm:flex">
-                                <input type="hidden" name="user_id" value="<?php echo $comment['user_id'] ?>">
-                                <input id="af-account-full-name" type="text"
-                                    class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                    name="username" value="<?php echo $comment['user_name']; ?>" placeholder="salmanabd"
-                                    readonly>
-                            </div>
-                        </div>
-                        <!-- COMMENT -->
-                        <div class="sm:col-span-3">
-                            <div class="inline-block">
-                                <label for="af-account-phone" class="inline-block text-sm text-gray-800 mt-2.5">
-                                    Ulasan
+                            <div>
+                                <label class="font-display font-bold uppercase text-sm mb-2 block">
+                                    <i class="fa-solid fa-user mr-1"></i> Pengguna
                                 </label>
+                                <div class="bg-white border-3 border-black p-3 font-bold font-mono shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)]">
+                                    <?php echo $comment['user_name']; ?>
+                                </div>
                             </div>
-                        </div>
-                        <div class="sm:col-span-9">
-                            <div class="sm:flex">
-                                <textarea id="af-account-phone"
-                                    class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                    name="comment" cols="30" rows="5"
-                                    placeholder="Product comment"><?php echo $comment['comment'] ?></textarea>
+                         </div>
+
+                        <!-- INPUT FIELDS -->
+                        <div class="lg:col-span-12 space-y-6">
+                            
+                            <!-- RATING -->
+                            <div>
+                                <label for="rating" class="font-display font-bold uppercase text-sm mb-2 block">
+                                    <i class="fa-solid fa-star text-yellow-500 mr-1"></i> Penilaian (1-5)
+                                </label>
+                                <div class="relative max-w-xs">
+                                    <input type="number" id="rating" name="rating" 
+                                           class="nb-input text-lg" 
+                                           placeholder="1 - 5" 
+                                           value="<?php echo $comment['rating'] ?>" 
+                                           min="1" max="5" required
+                                           autocomplete="off">
+                                    <div class="absolute right-0 top-0 h-full px-3 flex items-center bg-black text-white font-bold text-xs pointer-events-none">
+                                        STARS
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <!-- RATING -->
-                        <div class="sm:col-span-3">
-                            <label for="af-account-full-name" class="inline-block text-sm text-gray-800 mt-2.5">
-                                Penilaian
-                            </label>
-                        </div>
-                        <div class="sm:col-span-9">
-                            <div class="sm:flex">
-                                <input id="af-account-full-name" type="text"
-                                    class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                    name="rating" placeholder="1 - 5" value="<?php echo $comment['rating'] ?>"
-                                    autocomplete="off">
+
+                            <!-- COMMENT -->
+                            <div>
+                                <label for="comment" class="font-display font-bold uppercase text-sm mb-2 block">
+                                    Ulasan Anda
+                                </label>
+                                <textarea id="comment" name="comment" rows="6" 
+                                          class="nb-input resize-none leading-relaxed" 
+                                          placeholder="Tulis pendapat jujur Anda tentang produk ini..."><?php echo $comment['comment'] ?></textarea>
                             </div>
                         </div>
                     </div>
-                    <!-- BUTTON CANCEL AND SAVE -->
-                    <div class="mt-10 flex justify-end gap-x-2">
-                        <button type="button"
-                            class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50"
-                            onclick="window.location.href = '<?= base_url('user/comments'); ?>';">
+
+                    <!-- ACTIONS -->
+                    <div class="mt-10 pt-6 border-t-4 border-black flex flex-col-reverse md:flex-row justify-end gap-4">
+                        <button type="button" onclick="window.location.href = '<?= base_url('user/comments'); ?>';" 
+                                class="px-6 py-3 font-bold uppercase border-3 border-black bg-white hover:bg-gray-100 transition-all shadow-[4px_4px_0px_0px_black] active:translate-y-[2px] active:shadow-[2px_2px_0px_0px_black] w-full md:w-auto">
                             Batal
                         </button>
-                        <button type="submit"
-                            class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-                            name="submit">
-                            Simpan Perubahan
+                        <button type="submit" name="submit" 
+                                class="px-6 py-3 font-bold uppercase border-3 border-black bg-brutal-yellow hover:bg-yellow-300 transition-all shadow-[4px_4px_0px_0px_black] active:translate-y-[2px] active:shadow-[2px_2px_0px_0px_black] w-full md:w-auto">
+                            <i class="fa-solid fa-save mr-2"></i> Simpan Perubahan
                         </button>
                     </div>
                 </form>
@@ -123,4 +169,6 @@
         </div>
     </div>
 </section>
-<!-- ======= CONTENT SECTION END ======= -->
+
+</body>
+</html>

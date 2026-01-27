@@ -41,7 +41,6 @@ class User extends CI_Controller
         $fullname = $this->input->post('fullname');
         $username = $this->input->post('username');
         $email = $this->input->post('email');
-        $password = $this->input->post('password');
         $phone = $this->input->post('phone');
         $gender = $this->input->post('gender');
         $province = $this->input->post('province');
@@ -55,16 +54,25 @@ class User extends CI_Controller
         $user = $this->Admin_model->get_users_by_id($id)->row_array();
         $picture_old = $user['profile_picture'];
 
+        // KONFIGURASI UPLOAD (Harap Jangan Dihapus)
         $config['upload_path'] = './public/uploads/users';
-        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['allowed_types'] = 'jpg|jpeg|png|webp|gif'; // Tambahkan webp
+        $config['max_size']     = 5120; // 5MB
+        $config['encrypt_name'] = TRUE; // PENTING: Rename file random untuk mencegah error nama file
+        $config['detect_mime']  = TRUE; // Security check
 
         $this->load->library('upload', $config);
+        $this->upload->initialize($config); // Reset config
 
-        if ($this->upload->do_upload('picture')) {
-            $picture = $this->upload->data('file_name');
-        } else {
-            $picture = $picture_old;
-            $error = $this->upload->display_errors();
+        $picture = $picture_old; 
+
+        if (!empty($_FILES['picture']['name'])) {
+            if ($this->upload->do_upload('picture')) {
+                $picture = $this->upload->data('file_name');
+            } else {
+                // Tampilkan error spesifik dari library upload
+                $this->session->set_flashdata('error_upload', 'Gagal Upload Foto: ' . $this->upload->display_errors('', ''));
+            }
         }
 
         $data = array(
@@ -83,22 +91,25 @@ class User extends CI_Controller
             'profile_picture' => $picture
         );
 
-        // Hanya update password jika input tidak kosong
+        // PASSWORD UPDATE LOGIC
+        // Hanya update jika user mengisi password baru
         $new_password = $this->input->post('new_password');
         if (!empty($new_password)) {
-            $data['password'] = $new_password;
-        } elseif (!empty($password)) {
-            $data['password'] = $password;
+            $data['password'] = $new_password; 
         }
-
 
         $this->Admin_model->update_user($data, $id);
 
-        if ($this->db->affected_rows()) {
-            $this->session->set_flashdata('success', 'User updated successfully.');
-            redirect('akun/dashboard');
+        if ($this->db->affected_rows() >= 0) {
+            // Check if there was an upload error specifically
+            if($this->session->flashdata('error_upload')) {
+                $this->session->set_flashdata('error', $this->session->flashdata('error_upload'));
+            } else {
+                $this->session->set_flashdata('success', 'Profil berhasil diperbarui!');
+            }
+            redirect('akun/update_user'); // Stay on page to verify changes
         } else {
-            $this->session->set_flashdata('error', 'Failed to update your user. Please try again.');
+            $this->session->set_flashdata('error', 'Gagal memperbarui profil.');
             redirect('akun/update_user');
         }
     }
